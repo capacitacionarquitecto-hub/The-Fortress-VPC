@@ -17,11 +17,15 @@ resource "aws_vpc" "main" {
 # Public Subnets - DMZ Layer for internet-facing resources
 # ============================================================================
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 # Public subnet in Availability Zone 1 (us-east-1a)
 resource "aws_subnet" "public_subnet_01" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1a"
+  cidr_block              = cidrsubnet(var.VPC_CIDR, 8, 1)
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
 
   tags = {
@@ -33,8 +37,8 @@ resource "aws_subnet" "public_subnet_01" {
 # Public subnet in Availability Zone 2 (us-east-1b)
 resource "aws_subnet" "public_subnet_02" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.2.0/24"
-  availability_zone       = "us-east-1b"
+  cidr_block              = cidrsubnet(var.VPC_CIDR, 8, 2)
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
 
   tags = {
@@ -50,8 +54,8 @@ resource "aws_subnet" "public_subnet_02" {
 # Private subnet 01 in Availability Zone 1 (Application tier)
 resource "aws_subnet" "private_subnet_01" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.10.0/24"
-  availability_zone = "us-east-1a"
+  cidr_block        = cidrsubnet(var.VPC_CIDR, 8, 10)
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
     Name = "${var.PROJECT_NAME}-private-01"
@@ -63,8 +67,8 @@ resource "aws_subnet" "private_subnet_01" {
 # Private subnet 02 in Availability Zone 2 (Application tier)
 resource "aws_subnet" "private_subnet_02" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.11.0/24"
-  availability_zone = "us-east-1b"
+  cidr_block        = cidrsubnet(var.VPC_CIDR, 8, 11)
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
     Name = "${var.PROJECT_NAME}-private-02"
@@ -80,8 +84,8 @@ resource "aws_subnet" "private_subnet_02" {
 # Private subnet 03 in Availability Zone 1 (Database tier)
 resource "aws_subnet" "private_subnet_03" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.20.0/24"
-  availability_zone = "us-east-1a"
+  cidr_block        = cidrsubnet(var.VPC_CIDR, 8, 20)
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
     Name = "${var.PROJECT_NAME}-private-03"
@@ -93,8 +97,8 @@ resource "aws_subnet" "private_subnet_03" {
 # Private subnet 04 in Availability Zone 2 (Database tier)
 resource "aws_subnet" "private_subnet_04" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.21.0/24"
-  availability_zone = "us-east-1b"
+  cidr_block        = cidrsubnet(var.VPC_CIDR, 8, 21)
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
     Name = "${var.PROJECT_NAME}-private-04"

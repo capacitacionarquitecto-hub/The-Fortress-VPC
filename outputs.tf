@@ -178,3 +178,8 @@ output "vpc_architecture_summary" {
     private_database_cidrs    = [aws_subnet.private_subnet_03.cidr_block, aws_subnet.private_subnet_04.cidr_block]
   }
 }
+
+output "alb_dns_name" {
+  description = "The DNS name of the load balancer to access the app"
+  value       = aws_lb.main.dns_name
+}
