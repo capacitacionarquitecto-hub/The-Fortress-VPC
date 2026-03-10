@@ -29,7 +29,7 @@ resource "aws_launch_template" "web_app" {
               dnf install -y httpd
               systemctl start httpd
               systemctl enable httpd
-              echo "<h1>Hola desde la Fortaleza Cloud</h1><p>Instancia: $(hostname -f)</p>" > /var/www/html/index.html
+              echo "<h1>Hello from the Fortress Cloud</h1><p>Instance: $(hostname -f)</p>" > /var/www/html/index.html
               EOF
   )
 
@@ -66,7 +66,7 @@ resource "aws_lb_target_group" "web_tg" {
 
 # ALB Listener
 resource "aws_lb_listener" "http" {
-  load_balancer_id = aws_lb.main.id
+  load_balancer_arn = aws_lb.main.id
   port             = 80
   protocol         = "HTTP"
 

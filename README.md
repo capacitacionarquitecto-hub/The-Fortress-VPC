@@ -112,9 +112,11 @@ graph TB
 ## 🚀 Quick Start
 
 ### Prerequisites
-- AWS CLI configured with appropriate permissions
-- Terraform v1.0+ installed
-- AWS account with VPC creation permissions
+- **AWS CLI**: Configured with appropriate permissions (`aws configure`)
+- **Terraform**: v1.5.0+ installed (`terraform --version`)
+- **AWS Account**: With VPC creation permissions
+- **IAM Permissions**: Required policies for EC2, VPC, and networking resources
+- **Region Selection**: Choose a region with available capacity
 
 ### Deployment Steps
 
@@ -203,7 +205,31 @@ terraform destroy
 
 ⚠️ **Warning**: This will permanently delete all resources created by this configuration.
 
-## 📁 Project Structure
+## � Troubleshooting
+
+### Common Issues
+
+**Terraform Validation Errors**
+- Ensure AWS credentials are configured: `aws configure`
+- Check region permissions for VPC creation
+- Verify Terraform version: `terraform --version`
+
+**Resource Creation Failures**
+- Check AWS service limits (VPC, subnet, IGW quotas)
+- Ensure unique resource names if deploying multiple times
+- Verify CIDR blocks don't conflict with existing VPCs
+
+**Connectivity Issues**
+- Confirm NAT Gateway is in a public subnet
+- Check route table associations
+- Verify security group rules allow necessary traffic
+
+### Getting Help
+- Check Terraform outputs: `terraform output`
+- Review AWS CloudTrail for API errors
+- Use `terraform state list` to verify created resources
+
+## �📁 Project Structure
 
 ```
 The-Fortress-VPC/
